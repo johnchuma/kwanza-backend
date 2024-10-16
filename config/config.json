@@ -3,7 +3,7 @@
     "username": "kwanza_user",
     "password": "Kwanza@2024",
     "database": "kwanza",
-    "host": "52.72.71.52",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
