@@ -1,55 +1,46 @@
 const { Op } = require("sequelize");
-const { Audience, AudienceInterest, User } = require("../../models");
+const { Setting } = require("../../models");
 const { errorResponse, successResponse } = require("../../utils/responses");
-const { findUserByUUID } = require("../users/users.controllers");
-const {
-  addRevivePublisherOrAffiliate,
-} = require("../../utils/revive.controllers");
-const { accountId, rtb } = require("../../utils/gooleAuthClients");
-const setting = require("../../models/audience");
-const findAudienceByUUID = async (uuid) => {
-  try {
-    const response = await Audience.findOne({
-      where: {
-        uuid,
-      },
-    });
-    return response;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
+
 const updateSettings = async (req, res) => {
   try {
-    const { name, country, pretarget, interests, user_uuid } = req.body;
-    const user = await findUserByUUID(user_uuid);
-    const setting = await Audience.create({
-      name,
-      userId: user.id,
-      country,
-      pretarget,
+    const { amount } = req.body;
+    const setting = await Setting.findOne();
+    if (setting) {
+      await setting.destroy();
+    }
+    const response = await Setting.create({
+      publisherPayment: amount,
     });
-    const promises = interests.map(async (item) => {
-      return await AudienceInterest.create({
-        audienceId: audience.id,
-        interest: item,
-      });
-    });
-    await Promise.all(promises);
-    successResponse(res, audience);
+    successResponse(res, response);
   } catch (error) {
     console.log(error);
     errorResponse(res, error);
   }
 };
 
+const getSettings = async (req, res) => {
+  try {
+    const response = await Setting.findOne();
+    successResponse(res, response);
+  } catch (error) {
+    console.log(error);
+    errorResponse(res, error);
+  }
+};
+const getPublisherPayment = async () => {
+  try {
+    const response = await Setting.findOne();
+    return response.publisherPayment || 0;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+
 module.exports = {
-  addAudience,
-  deleteAudience,
-  getPretargetedAudiences,
-  editAudience,
-  getAudience,
-  getAudiences,
-  findAudienceByUUID,
+  updateSettings,
+  getPublisherPayment,
+  getSettings,
 };

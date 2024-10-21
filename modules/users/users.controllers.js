@@ -79,9 +79,17 @@ const addUser = async (req, res) => {
         role,
       });
       if (role == "advertiser") {
-        const agency = await findAgencyByUUID(agency_uuid);
+        let agency;
+        if (agency_uuid) {
+          agency = await findAgencyByUUID(agency_uuid);
+        } else {
+          agency = await Agency.findOne({
+            where: {
+              isMain: true,
+            },
+          });
+        }
         const client = await addReviveAdvertiser(name, email);
-        console.log(client);
         await AdvertiserDetail.create({
           clientId: client.insertId,
           agencyId: agency.id,

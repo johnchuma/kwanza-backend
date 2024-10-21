@@ -1,19 +1,22 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class AdvertiserDetail extends Model {
+  class TraditionalCampaign extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      AdvertiserDetail.belongsTo(models.User);
-      AdvertiserDetail.belongsTo(models.Agency);
+      TraditionalCampaign.hasMany(models.TraditionalCampaignChannel, {
+        onDelete: "CASCADE",
+        hooks: true,
+      });
+      TraditionalCampaign.belongsTo(models.User);
       // define association here
     }
   }
-  AdvertiserDetail.init(
+  TraditionalCampaign.init(
     {
       uuid: {
         type: DataTypes.UUID,
@@ -23,27 +26,31 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      agencyId: {
-        type: DataTypes.INTEGER,
+      name: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      clientId: {
-        type: DataTypes.INTEGER,
+      type: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      contactName: {
-        type: DataTypes.STRING,
-        allowNull: true,
+      budget: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
       },
-      officeEmail: {
-        type: DataTypes.STRING,
+      activateTime: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.DATE,
+      },
+      expireTime: {
+        type: DataTypes.DATE,
         allowNull: true,
       },
     },
     {
       sequelize,
-      modelName: "AdvertiserDetail",
+      modelName: "TraditionalCampaign",
     }
   );
-  return AdvertiserDetail;
+  return TraditionalCampaign;
 };

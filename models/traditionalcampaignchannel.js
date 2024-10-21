@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Agency extends Model {
+  class TraditionalCampaignChannel extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,36 +9,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Agency.hasMany(models.AgencyUser, {
-        onDelete: "CASCADE",
-        hooks: true,
-      });
-      Agency.hasMany(models.AdvertiserDetail);
     }
   }
-  Agency.init(
+  TraditionalCampaignChannel.init(
     {
       uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      name: {
-        type: DataTypes.STRING,
+      traditionalCampaignId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      isMain: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+      channelId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Agency",
+      modelName: "TraditionalCampaignChannel",
     }
   );
-  return Agency;
+  return TraditionalCampaignChannel;
 };

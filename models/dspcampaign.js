@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      DSPCampaign.hasMany(models.DSPCampaignReport, {
+        onDelete: "CASCADE",
+        scope: true,
+      });
       // define association here
     }
   }

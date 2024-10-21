@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Zone.belongsTo(models.Website);
+      Zone.hasMany(models.BannerZone);
       // define association here
     }
   }

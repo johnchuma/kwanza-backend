@@ -17,6 +17,10 @@ const WebsiteCategoryRoutes = require("./modules/websiteCategories/websiteCatego
 const AudiencesRoutes = require("./modules/audiences/audiences.routes");
 const StatsRoutes = require("./modules/stats/stats.routes");
 const InvoiceRoutes = require("./modules/invoices/invoices.routes");
+const SettingsRoutes = require("./modules/settings/settings.routes");
+const ChannelsRoutes = require("./modules/channels/channels.routes");
+const TraditionalCampaignRoutes = require("./modules/traditionalCampaigns/traditionalCampaigns.routes");
+const TraditionalCampaignChannelReportRoutes = require("./modules/traditionalCampaignChannelReports/traditionalCampaignChannelReports.routes");
 
 app.use("/files", express.static("files"));
 app.use("/extracted", express.static("extracted"));
@@ -39,6 +43,13 @@ app.use("/website-categories", WebsiteCategoryRoutes);
 app.use("/agency-users", AgencyUserRoutes);
 app.use("/audiences", AudiencesRoutes);
 app.use("/stats", StatsRoutes);
+app.use("/settings", SettingsRoutes);
+app.use("/channels", ChannelsRoutes);
+app.use("/traditional-campaigns", TraditionalCampaignRoutes);
+app.use(
+  "/traditional-campaign-channel-reports",
+  TraditionalCampaignChannelReportRoutes
+);
 
 app.get("/", (req, res) => {
   try {
@@ -46,6 +57,6 @@ app.get("/", (req, res) => {
   } catch (error) {}
 });
 
-app.listen(5001, () => {
-  console.log("Server started at port 5001");
+app.listen(5000, () => {
+  console.log("Server started at port 5000");
 });

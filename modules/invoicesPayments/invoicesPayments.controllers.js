@@ -14,7 +14,7 @@ const findInvoicePaymentByUUID = async (uuid) => {
     });
     return response;
   } catch (error) {
-    console.invoicepayment(error);
+    console.logpayment(error);
     throw error;
   }
 };
@@ -25,7 +25,7 @@ const addInvoicePayment = async (invoicepayment, user) => {
       userId: user.id,
     });
   } catch (error) {
-    console.invoicepayment(error);
+    console.logpayment(error);
   }
 };
 const getInvoicePayments = async (req, res) => {
@@ -59,7 +59,10 @@ const getInvoicePaymentsStats = async () => {
     // Count invoicepayments and group them per day
     const response = await InvoicePayment.findAll({
       attributes: [
-        [Sequelize.fn("DATE", Sequelize.col("createdAt")), "invoicepaymentgedAt"], // Group by the date part of createdAt
+        [
+          Sequelize.fn("DATE", Sequelize.col("createdAt")),
+          "invoicepaymentgedAt",
+        ], // Group by the date part of createdAt
         [Sequelize.fn("COUNT", Sequelize.col("id")), "count"], // Count invoicepayments
       ],
       group: [Sequelize.fn("DATE", Sequelize.col("createdAt"))], // Group by date
@@ -68,7 +71,7 @@ const getInvoicePaymentsStats = async () => {
 
     return response;
   } catch (error) {
-    console.invoicepayment(error);
+    console.logpayment(error);
   }
 };
 const getInvoicePayment = async (req, res) => {

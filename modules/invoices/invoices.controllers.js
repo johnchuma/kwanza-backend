@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Invoice, User, Sequelize } = require("../../models");
+const { Invoice, User, Sequelize, InvoicePayment } = require("../../models");
 const { errorResponse, successResponse } = require("../../utils/responses");
 const { findUserByUUID } = require("../users/users.controllers");
 
@@ -12,7 +12,7 @@ const findInvoiceByUUID = async (uuid) => {
     });
     return response;
   } catch (error) {
-    console.invoice(error);
+    console.log(error);
     throw error;
   }
 };
@@ -27,7 +27,36 @@ const addInvoice = async (req, res) => {
     });
     successResponse(res, response);
   } catch (error) {
-    console.invoice(error);
+    console.log(error);
+    errorResponse(res, error);
+  }
+};
+const addInvoicePayment = async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const invoice = await findInvoiceByUUID(uuid);
+    const response = await InvoicePayment.create({
+      invoiceId: invoice.id,
+      amount: invoice.amount,
+    });
+    successResponse(res, response);
+  } catch (error) {
+    console.log(error);
+    errorResponse(res, error);
+  }
+};
+const deleteInvoicePayment = async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const invoicePayment = await InvoicePayment.findOne({
+      where: {
+        uuid,
+      },
+    });
+    const response = await invoicePayment.destroy();
+    successResponse(res, response);
+  } catch (error) {
+    console.log(error);
     errorResponse(res, error);
   }
 };
@@ -42,18 +71,9 @@ const getUserInvoices = async (req, res) => {
       offset: req.offset,
       order: [["createdAt", "DESC"]],
       where: {
-        [Op.and]: [
-          {
-            invoice: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            userId: user.id,
-          },
-        ],
+        userId: user.id,
       },
-
+      include: [InvoicePayment],
       attributes: {
         exclude: ["id"],
       },
@@ -75,12 +95,20 @@ const getInvoices = async (req, res) => {
       limit: req.limit,
       offset: req.offset,
       order: [["createdAt", "DESC"]],
-      where: {
-        invoice: {
-          [Op.like]: `%${keyword}%`,
+      include: [
+        {
+          model: User,
+          where: {
+            name: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
         },
-      },
-      include: [User],
+
+        {
+          model: InvoicePayment,
+        },
+      ],
       attributes: {
         exclude: ["id"],
       },
@@ -109,7 +137,7 @@ const getInvoicesStats = async () => {
 
     return response;
   } catch (error) {
-    console.invoice(error);
+    console.log(error);
   }
 };
 const getInvoice = async (req, res) => {
@@ -158,6 +186,8 @@ module.exports = {
   addInvoice,
   deleteInvoice,
   editInvoice,
+  addInvoicePayment,
+  deleteInvoicePayment,
   getInvoicesStats,
   getUserInvoices,
   getInvoice,

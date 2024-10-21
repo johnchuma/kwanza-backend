@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Invoice extends Model {
+  class TraditionalCampaignChannelReport extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,32 +9,43 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Invoice.hasOne(models.InvoicePayment, {
-        onDelete: "CASCADE",
-        hooks: true,
-      });
-      Invoice.belongsTo(models.User);
     }
   }
-  Invoice.init(
+  TraditionalCampaignChannelReport.init(
     {
       uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      userId: {
+      traditionalCampaignChannelId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      amount: {
+      count: {
         type: DataTypes.DOUBLE,
-        allowNull: false,
+        allowNull: true,
+      },
+      impressions: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+      },
+      AVE: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+      },
+      spent: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+      },
+      mention: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
     },
     {
       sequelize,
-      modelName: "Invoice",
+      modelName: "TraditionalCampaignChannelReport",
     }
   );
-  return Invoice;
+  return TraditionalCampaignChannelReport;
 };

@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true,
       });
+      User.hasMany(models.Log);
+      User.hasMany(models.TraditionalCampaign);
       User.hasOne(models.AgencyUser);
+      User.hasMany(models.SSPCampaign);
+      User.hasMany(models.DSPCampaign);
       User.hasMany(models.AgencyUser, {
         onDelete: "CASCADE",
         hooks: true,

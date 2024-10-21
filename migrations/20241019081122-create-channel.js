@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable("Settings", {
+    await queryInterface.createTable("Channels", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,9 +13,17 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      publisherPayment: {
-        type: DataTypes.DOUBLE,
-        defaultValue: 1,
+      agencyId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      media: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, DataTypes) {
-    await queryInterface.dropTable("Settings");
+    await queryInterface.dropTable("Channels");
   },
 };

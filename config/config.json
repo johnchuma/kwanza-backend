@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "kwanza_user",
-    "password": "Kwanza@2024",
+    "username": "root",
+    "password": null,
     "database": "kwanza",
     "host": "127.0.0.1",
     "dialect": "mysql"
