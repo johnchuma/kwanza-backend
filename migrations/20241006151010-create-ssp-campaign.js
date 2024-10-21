@@ -13,6 +13,10 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "draft",
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
