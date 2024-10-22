@@ -158,6 +158,7 @@ const getSSPCampaign = async (req, res) => {
 const deleteSSPCampaign = async (req, res) => {
   try {
     const { uuid } = req.params;
+    console.log("UUID", uuid);
     const sspcampaign = await SSPCampaign.findOne({
       where: {
         uuid,

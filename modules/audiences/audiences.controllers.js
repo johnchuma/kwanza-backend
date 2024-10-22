@@ -57,6 +57,7 @@ const getPretargetedAudiences = async (req, res) => {
 const getAudiences = async (req, res) => {
   try {
     const { uuid } = req.params;
+    console.log(uuid);
     const user = await findUserByUUID(uuid);
     const response = await Audience.findAndCountAll({
       limit: req.limit,

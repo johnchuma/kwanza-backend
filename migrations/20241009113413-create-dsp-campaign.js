@@ -25,6 +25,10 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "draft",
+      },
       destination: {
         type: DataTypes.STRING,
         allowNull: false,

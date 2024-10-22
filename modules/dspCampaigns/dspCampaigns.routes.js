@@ -17,4 +17,4 @@ router.get("/:uuid", validateJWT, getDSPCampaign);
 router.patch("/:uuid", validateJWT, editDSPCampaign);
 router.delete("/:uuid", validateJWT, deleteDSPCampaign);
 
-module.exports = router;
+module.exports = router; 

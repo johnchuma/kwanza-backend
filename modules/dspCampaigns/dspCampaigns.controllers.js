@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const {
   DSPCampaign,
   User,
+  Audience,
   AdvertiserDetail,
   Sequelize,
 } = require("../../models");
@@ -125,6 +126,7 @@ const getDSPCampaign = async (req, res) => {
       where: {
         uuid,
       },
+      include: [Audience, User],
     });
     successResponse(res, dspCampaign);
   } catch (error) {
@@ -149,7 +151,12 @@ const deleteDSPCampaign = async (req, res) => {
 const editDSPCampaign = async (req, res) => {
   try {
     const { uuid } = req.params;
-    const data = req.body;
+    let data = req.body;
+    if (data.audience_uuid) {
+      const audience = await findAudienceByUUID(data.audience_uuid);
+      data.audienceId = audience.id;
+    }
+
     const dspCampaign = await DSPCampaign.findOne({
       where: {
         uuid,

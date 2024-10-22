@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      DSPCampaign.belongsTo(models.Audience);
+      DSPCampaign.belongsTo(models.User);
       DSPCampaign.hasMany(models.DSPCampaignReport, {
         onDelete: "CASCADE",
         scope: true,
@@ -32,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "draft",
       },
       destination: {
         type: DataTypes.STRING,

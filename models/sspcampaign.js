@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true,
       });
+
       // define association here
     }
   }
@@ -33,10 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      // status: {
-      //   type: DataTypes.STRING,
-      //   defaultValue: "draft",
-      // },
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "draft",
+      },
       type: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
