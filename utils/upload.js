@@ -2,7 +2,8 @@ const multer = require("multer");
 const fs = require("fs");
 const unzipper = require("unzipper");
 const path = require("path");
-const base_url = "https://api.kwanza.io";
+// const base_url = "https://api.kwanza.io";
+const base_url = "http://localhost:5000";
 
 // Set up multer for file storage
 const storage = multer.diskStorage({
