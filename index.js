@@ -21,6 +21,28 @@ const SettingsRoutes = require("./modules/settings/settings.routes");
 const ChannelsRoutes = require("./modules/channels/channels.routes");
 const TraditionalCampaignRoutes = require("./modules/traditionalCampaigns/traditionalCampaigns.routes");
 const TraditionalCampaignChannelReportRoutes = require("./modules/traditionalCampaignChannelReports/traditionalCampaignChannelReports.routes");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json");
+const {
+  usersTag,
+  agenciesTag,
+  websitesTag,
+  logsTag,
+  invoicesTag,
+  zonesTag,
+  sspCampaignBannersTag,
+  dspCampaignBannersTag,
+  sspCampaignsTag,
+  dspCampaignsTag,
+  websiteCategoriesTag,
+  agencyUsersTag,
+  audiencesTag,
+  statsTag,
+  settingsTag,
+  channelsTag,
+  traditionalCampaignsTag,
+  traditionalCampaignChannelReportTag,
+} = require("./utils/apiSwaggerTags");
 
 app.use("/files", express.static("files"));
 app.use("/extracted", express.static("extracted"));
@@ -28,28 +50,41 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.text({ type: "text/plain" }));
 
-app.use("/users", UserRoutes);
-app.use("/agencies", AgencyRoutes);
-app.use("/websites", WebsitesRoutes);
-app.use("/logs", LogsRoutes);
-app.use("/invoices", InvoiceRoutes);
-app.use("/users", LogsRoutes);
-app.use("/zones", ZonesRoutes);
-app.use("/ssp-campaign-banners", SSPCampaignBannerRoutes);
-app.use("/dsp-campaign-banners", DSPCampaignBannerRoutes);
-app.use("/ssp-campaigns", SSPCampaignsRoutes);
-app.use("/dsp-campaigns", DSPCampaignsRoutes);
-app.use("/website-categories", WebsiteCategoryRoutes);
-app.use("/agency-users", AgencyUserRoutes);
-app.use("/audiences", AudiencesRoutes);
-app.use("/stats", StatsRoutes);
-app.use("/settings", SettingsRoutes);
-app.use("/channels", ChannelsRoutes);
-app.use("/traditional-campaigns", TraditionalCampaignRoutes);
+app.use("/users", usersTag, UserRoutes);
+app.use("/agencies", agenciesTag, AgencyRoutes);
+app.use("/websites", websitesTag, WebsitesRoutes);
+app.use("/logs", logsTag, LogsRoutes);
+app.use("/invoices", invoicesTag, InvoiceRoutes);
+app.use("/zones", zonesTag, ZonesRoutes);
+app.use(
+  "/ssp-campaign-banners",
+  sspCampaignBannersTag,
+  SSPCampaignBannerRoutes
+);
+app.use(
+  "/dsp-campaign-banners",
+  dspCampaignBannersTag,
+  DSPCampaignBannerRoutes
+);
+app.use("/ssp-campaigns", sspCampaignsTag, SSPCampaignsRoutes);
+app.use("/dsp-campaigns", dspCampaignsTag, DSPCampaignsRoutes);
+app.use("/website-categories", websiteCategoriesTag, WebsiteCategoryRoutes);
+app.use("/agency-users", agencyUsersTag, AgencyUserRoutes);
+app.use("/audiences", audiencesTag, AudiencesRoutes);
+app.use("/stats", statsTag, StatsRoutes);
+app.use("/settings", settingsTag, SettingsRoutes);
+app.use("/channels", channelsTag, ChannelsRoutes);
+app.use(
+  "/traditional-campaigns",
+  traditionalCampaignsTag,
+  TraditionalCampaignRoutes
+);
 app.use(
   "/traditional-campaign-channel-reports",
+  traditionalCampaignChannelReportTag,
   TraditionalCampaignChannelReportRoutes
 );
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/", (req, res) => {
   try {

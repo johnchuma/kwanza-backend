@@ -13,14 +13,8 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true,
       });
-      SSPCampaignBanner.belongsTo(models.SSPCampaign, {
-        onDelete: "CASCADE",
-        hooks: true,
-      });
-      SSPCampaignBanner.hasMany(models.SSPCampaignBannerReport, {
-        onDelete: "CASCADE",
-        hooks: true,
-      });
+      SSPCampaignBanner.belongsTo(models.SSPCampaign);
+      SSPCampaignBanner.hasMany(models.SSPCampaignBannerReport);
     }
   }
   SSPCampaignBanner.init(
